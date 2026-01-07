@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/quiz_fond"
+        android:scaleType="centerCrop" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="163dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="576dp"
+            android:contentDescription="Logo"
+            android:scaleType="centerCrop"
+            android:src="@drawable/geoculture"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvQuestionNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="160dp"
+            android:layout_marginTop="44dp"
+            android:text="Question 1/10"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+        <ImageView
+            android:id="@+id/ivFlag"
+            android:layout_width="200dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="104dp"
+            android:layout_marginTop="36dp"
+            android:contentDescription="Flag"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvQuestionNumber" />
+
+        <EditText
+            android:id="@+id/etAnswer"
+            android:layout_width="260dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="44dp"
+            android:background="@drawable/input_bg"
+            android:hint="Entrez le pays..."
+            android:textColorHint="#999999"
+            android:textColor="#333333"
+            android:gravity="center"
+            android:padding="12dp"
+            android:inputType="textCapSentences"
+            android:maxLines="1"
+            android:fontFamily="sans-serif-medium"
+            android:elevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivFlag" />
+
+        <TextView
+            android:id="@+id/btn_suivant"
+            android:layout_width="176dp"
+            android:layout_height="60dp"
+            android:background="@drawable/btn_3d"
+            android:clickable="true"
+            android:elevation="12dp"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="SUIVANT ⏭"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.832" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
