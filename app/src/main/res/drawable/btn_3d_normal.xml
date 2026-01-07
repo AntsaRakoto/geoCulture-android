@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <corners android:radius="24dp"/>
+
+    <!-- Dégradé vertical pour effet bombé -->
+    <gradient
+        android:startColor="#5d8516"
+        android:centerColor="#a1ce33"
+        android:endColor="#9bdd24"
+        android:angle="270"/>
+
+    <!-- Bordure légèrement plus foncée -->
+    <stroke
+        android:width="2dp"
+        android:color="#145A32"/>
+
+    <padding
+        android:left="28dp"
+        android:top="14dp"
+        android:right="28dp"
+        android:bottom="14dp"/>
+</shape>
+
