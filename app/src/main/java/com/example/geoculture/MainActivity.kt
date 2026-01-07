@@ -17,14 +17,15 @@ class MainActivity : AppCompatActivity() {
         val btnStart = findViewById<TextView>(R.id.btn_start)
         val clickSound = MediaPlayer.create(this, R.raw.btn_sound)
 
+        YoYo.with(Techniques.Pulse)
+            .duration(1200)
+            .repeat(YoYo.INFINITE)
+            .playOn(btnStart)
+
         btnStart.setOnClickListener {
             YoYo.with(Techniques.Bounce)
                 .duration(450)
                 .playOn(it)
-            YoYo.with(Techniques.Pulse)
-                .duration(1200)
-                .repeat(YoYo.INFINITE)
-                .playOn(btnStart)
 
             clickSound.start()
 

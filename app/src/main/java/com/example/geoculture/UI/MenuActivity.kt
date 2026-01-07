@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.geoculture.R
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import com.example.geoculture.MainActivity
 
 
 class MenuActivity : AppCompatActivity() {
@@ -19,26 +20,27 @@ class MenuActivity : AppCompatActivity() {
         val btnApprendre = findViewById<TextView>(R.id.btn_apprendre)
         val clickSound = MediaPlayer.create(this, R.raw.btn_sound)
 
+        YoYo.with(Techniques.Pulse)
+            .duration(1200)
+            .repeat(YoYo.INFINITE)
+            .playOn(btnQuiz)
+
         btnQuiz.setOnClickListener {
             YoYo.with(Techniques.Bounce)
                 .duration(450)
                 .playOn(it)
-            YoYo.with(Techniques.Pulse)
-                .duration(1200)
-                .repeat(YoYo.INFINITE)
-                .playOn(btnQuiz)
 
             clickSound.start()
+
+            val intent = Intent(this@MenuActivity, MenuQuizActivity::class.java)
+            startActivity(intent)
         }
 
         btnApprendre.setOnClickListener {
             YoYo.with(Techniques.Bounce)
                 .duration(450)
                 .playOn(it)
-            YoYo.with(Techniques.Pulse)
-                .duration(1200)
-                .repeat(YoYo.INFINITE)
-                .playOn(btnQuiz)
+
 
             clickSound.start()
         }

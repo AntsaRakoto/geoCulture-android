@@ -14,6 +14,8 @@
 
         <activity android:name=".UI.MenuActivity"/>
 
+        <activity android:name=".UI.MenuQuizActivity"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
