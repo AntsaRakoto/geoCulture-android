@@ -3,7 +3,7 @@ package com.example.geoculture
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.geoculture.UI.MenuActivity
+import com.example.geoculture.ui.MenuActivity
 import android.widget.TextView
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,9 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GeoCulture">
 
-        <activity android:name=".UI.MenuActivity"/>
+        <activity android:name=".ui.MenuActivity"/>
 
-        <activity android:name=".UI.MenuQuizActivity"/>
+        <activity android:name=".ui.MenuQuizActivity"/>
+
+        <activity android:name=".ui.QuizDrapeauActivity"/>
 
         <activity
             android:name=".MainActivity"

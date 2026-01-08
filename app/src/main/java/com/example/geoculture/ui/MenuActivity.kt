@@ -1,4 +1,4 @@
-package com.example.geoculture.UI
+package com.example.geoculture.ui
 
 import android.content.Intent
 import android.media.MediaPlayer
@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.geoculture.R
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
-import com.example.geoculture.MainActivity
 
 
 class MenuActivity : AppCompatActivity() {

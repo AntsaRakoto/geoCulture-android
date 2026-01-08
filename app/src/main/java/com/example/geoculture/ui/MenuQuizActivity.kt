@@ -1,4 +1,4 @@
-package com.example.geoculture.UI
+package com.example.geoculture.ui
 
 import android.content.Intent
 import android.media.MediaPlayer
@@ -18,7 +18,7 @@ class MenuQuizActivity : AppCompatActivity() {
         val clickSound = MediaPlayer.create(this, R.raw.btn_sound)
 
         btnDrapeau.setOnClickListener {
-            val intent = Intent(this@MenuQuizActivity, MainActivity::class.java)
+            val intent = Intent(this@MenuQuizActivity, QuizDrapeauActivity::class.java)
             clickSound.start()
             startActivity(intent)
         }
