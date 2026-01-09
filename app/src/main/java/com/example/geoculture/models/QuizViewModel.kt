@@ -6,6 +6,7 @@ import com.example.geoculture.data.Country
 import com.example.geoculture.repository.QuizRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class QuizViewModel : ViewModel() {
@@ -21,6 +22,8 @@ class QuizViewModel : ViewModel() {
 
     private var countries: List<Country> = emptyList()
     private var currentIndex = 0
+
+
 
     init {
         loadCountries()
@@ -65,4 +68,23 @@ class QuizViewModel : ViewModel() {
     fun checkAnswer(answer: String): Boolean {
         return answer.trim().equals(countries[currentIndex].name, ignoreCase = true)
     }
+
+    private val _showScoreDialog = MutableStateFlow(false)
+    val showScoreDialog = _showScoreDialog.asStateFlow()
+
+    fun onFinishClicked() {
+        _showScoreDialog.value = true
+    }
+
+    fun resetScoreDialog() {
+        _showScoreDialog.value = false
+    }
+
+    fun resetQuiz() {
+        currentIndex = 0
+        _questionNumber.value = "Question 1/10"
+        _isQuizFinished.value = false
+        _currentCountry.value = countries.first()
+    }
+
 }

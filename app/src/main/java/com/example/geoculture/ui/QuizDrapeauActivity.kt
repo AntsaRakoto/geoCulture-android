@@ -15,11 +15,16 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import com.example.geoculture.R
 import android.media.MediaPlayer
+import androidx.appcompat.app.AlertDialog
 import com.example.geoculture.api.RetrofitInstance
 
 class QuizDrapeauActivity : AppCompatActivity() {
 
     private val quizViewModel: QuizViewModel by viewModels()
+    private var quizFinished = false
+
+    private var score : Int = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,28 +39,6 @@ class QuizDrapeauActivity : AppCompatActivity() {
         val sonFin = MediaPlayer.create(this, R.raw.fin_jeu)
         val sonCorrect = MediaPlayer.create(this, R.raw.correct)
         val sonIncorrect = MediaPlayer.create(this, R.raw.incorrect)
-
-        lifecycleScope.launch {
-            try {
-                val countries = RetrofitInstance.api.getAllCountries()
-                println("Pays récupérés: ${countries.size}")
-                countries.take(5).forEach { println(it.name.common) }
-            } catch (e: Exception) {
-                println("erreur : ")
-                e.printStackTrace()
-            }
-        }
-
-
-        lifecycleScope.launch {
-            quizViewModel.isQuizFinished.collectLatest { finished ->
-                if (finished) {
-                    tvFeedBack.text = "🎉 Quiz terminé !"
-                    btnSubmit.isEnabled = false
-                    sonFin.start()
-                }
-            }
-        }
 
 
         // 1️⃣ Observer le drapeau
@@ -76,21 +59,91 @@ class QuizDrapeauActivity : AppCompatActivity() {
             }
         }
 
+        lifecycleScope.launch {
+            quizViewModel.isQuizFinished.collectLatest { finished ->
+                if (finished) {
+                    quizFinished = true
+                    etAnswer.visibility = View.GONE
+                    btnSubmit.text = "Finir"
+                    sonFin.start()
+                }
+                if (!finished) {
+                    quizFinished = false
+                    etAnswer.visibility = View.VISIBLE
+                    btnSubmit.text = "SUIVANT"
+                    tvFeedBack.text = ""
+                }
+
+            }
+        }
+
         // 3️⃣ Gestion du clic sur SUIVANT
         btnSubmit.setOnClickListener {
-            val answer = etAnswer.text.toString()
-            val correct = quizViewModel.checkAnswer(answer)
+            if (!quizFinished) {
+                val answer = etAnswer.text.toString()
+                val correct = quizViewModel.checkAnswer(answer)
 
-            if (correct) {
-                tvFeedBack.text = "✅ Correct !"
-                sonCorrect.start()
-            } else {
-                tvFeedBack.text = "❌ Incorrect ! ${quizViewModel.currentCountry.value?.name}"
-                sonIncorrect.start()
+                if (correct) {
+                    tvFeedBack.text = "✅ Correct !"
+                    score++
+                    sonCorrect.start()
+                } else {
+                    tvFeedBack.text = "❌ Incorrect ! ${quizViewModel.currentCountry.value?.name}"
+                    sonIncorrect.start()
+                }
+
+                quizViewModel.nextQuestion()
+                etAnswer.text.clear()
+            }
+            else {
+                quizViewModel.onFinishClicked()
             }
 
-            quizViewModel.nextQuestion()
-            etAnswer.text.clear()
         }
+
+
+        lifecycleScope.launch {
+            quizViewModel.showScoreDialog.collectLatest { show ->
+                if (show) {
+                    showScoreDialog()
+                    quizViewModel.resetScoreDialog()
+                }
+            }
+        }
+
+
     }
+    private fun showScoreDialog() {
+
+        val dialogView = layoutInflater.inflate(R.layout.dialog_score, null)
+
+        val tvScore = dialogView.findViewById<TextView>(R.id.tvDialogScore)
+        val btnReplay = dialogView.findViewById<TextView>(R.id.btn_replay)
+        val btnBack = dialogView.findViewById<TextView>(R.id.btn_back)
+
+        tvScore.text = "Score : $score/10"
+
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        btnReplay.setOnClickListener {
+            dialog.dismiss()
+            score = 0
+            quizViewModel.resetQuiz()
+            recreate()
+        }
+
+        btnBack.setOnClickListener {
+            dialog.dismiss()
+            finish()
+        }
+
+        dialog.show()
+    }
+
+
 }
