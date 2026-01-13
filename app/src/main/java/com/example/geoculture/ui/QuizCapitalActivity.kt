@@ -1,36 +1,35 @@
 package com.example.geoculture.ui
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.example.geoculture.R
 import com.example.geoculture.models.QuizViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import com.example.geoculture.R
-import android.media.MediaPlayer
-import androidx.appcompat.app.AlertDialog
-import com.example.geoculture.api.RetrofitInstance
+import kotlin.getValue
 
-class QuizDrapeauActivity : AppCompatActivity() {
+class QuizCapitalActivity : AppCompatActivity() {
 
     private val quizViewModel: QuizViewModel by viewModels()
     private var quizFinished = false
 
-    private var score : Int = 0
+    private var score: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_quiz_drapeau)
+        setContentView(R.layout.activity_quiz_capital)
 
-        val ivFlag = findViewById<ImageView>(R.id.ivFlag)
+        val ivCapital = findViewById<TextView>(R.id.ivCapital)
         val tvQuestionNumber = findViewById<TextView>(R.id.tvQuestionNumber)
         val etAnswer = findViewById<EditText>(R.id.etAnswer)
         val btnSubmit = findViewById<TextView>(R.id.btn_submit)
@@ -41,54 +40,49 @@ class QuizDrapeauActivity : AppCompatActivity() {
         val sonIncorrect = MediaPlayer.create(this, R.raw.incorrect)
 
 
-        // 1️⃣ Observer le drapeau
+        // Country
         lifecycleScope.launch {
             quizViewModel.currentCountry.collectLatest { country ->
                 country?.let {
-                    Glide.with(this@QuizDrapeauActivity)
-                        .load(it.flagUrl) // URL depuis API
-                        .into(ivFlag)
+                    ivCapital.text = it.name
                 }
             }
         }
 
-        // 2️⃣ Observer le numéro de question
+        // Question number
         lifecycleScope.launch {
-            quizViewModel.questionNumber.collectLatest { text ->
-                tvQuestionNumber.text = text
+            quizViewModel.questionNumber.collectLatest {
+                tvQuestionNumber.text = it
             }
         }
 
+        // Fin du quiz
         lifecycleScope.launch {
             quizViewModel.isQuizFinished.collectLatest { finished ->
+                quizFinished = finished
                 if (finished) {
-                    quizFinished = true
                     etAnswer.visibility = View.GONE
                     btnSubmit.text = "Finir"
                     sonFin.start()
-                }
-                if (!finished) {
-                    quizFinished = false
+                } else {
                     etAnswer.visibility = View.VISIBLE
                     btnSubmit.text = "SUIVANT"
                     tvFeedBack.text = ""
                 }
-
             }
         }
 
-        // 3️⃣ Gestion du clic sur SUIVANT
         btnSubmit.setOnClickListener {
             if (!quizFinished) {
                 val answer = etAnswer.text.toString()
-                val correct = quizViewModel.checkAnswerFlag(answer)
+                val correct = quizViewModel.checkAnswerCapital(answer)
 
                 if (correct) {
                     tvFeedBack.text = "✅ Correct !"
                     score++
                     sonCorrect.start()
                 } else {
-                    tvFeedBack.text = "❌ Incorrect ! ${quizViewModel.currentCountry.value?.name}"
+                    tvFeedBack.text = "❌ Incorrect ! ${quizViewModel.currentCountry.value?.capital}"
                     sonIncorrect.start()
                 }
 
@@ -101,7 +95,6 @@ class QuizDrapeauActivity : AppCompatActivity() {
 
         }
 
-
         lifecycleScope.launch {
             quizViewModel.showScoreDialog.collectLatest { show ->
                 if (show) {
@@ -110,7 +103,6 @@ class QuizDrapeauActivity : AppCompatActivity() {
                 }
             }
         }
-
 
     }
     private fun showScoreDialog() {
@@ -143,7 +135,7 @@ class QuizDrapeauActivity : AppCompatActivity() {
         }
 
         dialog.show()
-    }
 
+    }
 
 }

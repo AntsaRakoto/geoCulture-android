@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.example.geoculture.MainActivity
 import com.example.geoculture.R
+import com.example.geoculture.models.QuizType
 
 class MenuQuizActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,14 +20,17 @@ class MenuQuizActivity : AppCompatActivity() {
 
         btnDrapeau.setOnClickListener {
             val intent = Intent(this@MenuQuizActivity, QuizDrapeauActivity::class.java)
+            intent.putExtra("QUIZ_TYPE", QuizType.FLAG.name)
             clickSound.start()
             startActivity(intent)
         }
 
         btnCapitale.setOnClickListener {
-            val intent = Intent(this@MenuQuizActivity, MainActivity::class.java)
+            val intent = Intent(this@MenuQuizActivity, QuizCapitalActivity::class.java)
+            intent.putExtra("QUIZ_TYPE", QuizType.CAPITAL.name)
             clickSound.start()
             startActivity(intent)
+
         }
 
     }

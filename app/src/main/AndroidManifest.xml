@@ -20,6 +20,8 @@
 
         <activity android:name=".ui.QuizDrapeauActivity"/>
 
+        <activity android:name=".ui.QuizCapitalActivity"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

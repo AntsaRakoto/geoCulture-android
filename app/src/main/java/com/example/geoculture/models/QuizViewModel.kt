@@ -36,7 +36,7 @@ class QuizViewModel : ViewModel() {
                 loadQuestion()
             } catch (e: Exception) {
                 e.printStackTrace()
-                // On peut mettre une question fake pour ne pas crasher
+                // Pour éviter de crasher
                 countries = listOf(
                     Country("France", "Paris", "https://node01.flagstat.net/media/catalog/product/detail/11477.png")
                 )
@@ -65,9 +65,13 @@ class QuizViewModel : ViewModel() {
         }
     }
 
-    fun checkAnswer(answer: String): Boolean {
-        return answer.trim().equals(countries[currentIndex].name, ignoreCase = true)
+    fun checkAnswerCapital(answer: String): Boolean {
+        return answer.trim().equals(countries[currentIndex].capital, true)
     }
+    fun checkAnswerFlag(answer: String): Boolean {
+        return answer.trim().equals(countries[currentIndex].name, true)
+    }
+
 
     private val _showScoreDialog = MutableStateFlow(false)
     val showScoreDialog = _showScoreDialog.asStateFlow()

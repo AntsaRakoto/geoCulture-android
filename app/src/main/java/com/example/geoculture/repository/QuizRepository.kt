@@ -20,7 +20,7 @@ class QuizRepository {
 
             Country(
                 name = frenchName,
-                capital = null, // ou apiCountry.capital si tu veux plus tard
+                capital = apiCountry.capital?.firstOrNull(),
                 flagUrl = apiCountry.flags.png
             )
         }

@@ -4,7 +4,7 @@ import com.example.geoculture.data.Country
 import retrofit2.http.GET
 
 interface RestCountriesApi {
-    @GET("all?fields=name,flags,translations")
+    @GET("all?fields=name,flags,capital,translations")
     suspend fun getAllCountries(): List<ApiCountry>
 }
 
@@ -12,6 +12,7 @@ interface RestCountriesApi {
 data class ApiCountry(
     val name: Name,
     val flags: Flags,
+    val capital: List<String>?,
     val translations: Map<String, Translation>
 )
 data class Translation(
